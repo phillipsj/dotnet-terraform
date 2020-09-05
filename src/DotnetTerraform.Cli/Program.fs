@@ -1,7 +1,6 @@
-﻿// Learn more about F# at http://fsharp.org
-
-open System
+﻿open System
 open DotnetTerraform.Cli.Commands
+open DotnetTerraform.Cli.ConfigParser
 open Argu
 
 type CliError =
@@ -18,11 +17,14 @@ let getExitCode result =
 let main argv =
     let errorHandler = ProcessExiter(colorizer = function ErrorCode.HelpText -> None | _ -> Some ConsoleColor.Red)
     let parser = ArgumentParser.Create<CmdArgs>(programName = "dotnet-terraform", errorHandler = errorHandler)
-    
-    
+        
     match parser.ParseCommandLine argv with
     | p when p.Contains(Install) ->
-        printfn "Install command"
+        let configFile = "terraform.toml"
+        let toml = validateConfiguration (Ok(configFile))
+        match toml with
+            | Ok p -> p.ToString() |> printfn "%s"
+            | Error e -> e.Message |> printfn "Error: %s"
         Ok()
     | p when p.Contains(Init) ->
         p.GetResults(Init).ToString() |> printfn "Init command with the following %s" 

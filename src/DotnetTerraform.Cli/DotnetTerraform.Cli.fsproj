@@ -27,12 +27,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="ConfigParser.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Argu" Version="6.1.1" />
+    <PackageReference Include="Tomlyn" Version="0.1.2" />
   </ItemGroup>
 
 </Project>
