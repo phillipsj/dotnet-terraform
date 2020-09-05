@@ -21,6 +21,7 @@ let parseToml (contents: string): Result<DocumentSyntax, Exception> =
         let parsed = Toml.Parse(contents)
         Ok(parsed)
     with ex -> Error(ex)
+    
 
 let validateConfiguration config: Result<DocumentSyntax, Exception> =
     config

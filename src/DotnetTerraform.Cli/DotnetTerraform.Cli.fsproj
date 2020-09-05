@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Compile Include="ConfigParser.fs" />
+    <Compile Include="Installer.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
