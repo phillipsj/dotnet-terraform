@@ -24,7 +24,7 @@ let main argv =
         let configFile = "terraform.toml"
         let toml = validateConfiguration (Ok(configFile))
         match toml with
-            | Ok p ->
+            | Ok _ ->
                 let osInfo = { name = "linux";arch = "amd64";version = "0.13.2"}
                 let exePath = installTerraform (Ok(osInfo))
                 match exePath with

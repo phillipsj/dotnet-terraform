@@ -4,11 +4,8 @@ open System
 open System.IO
 open Tomlyn
 open Tomlyn.Syntax
+open DotnetTerraform.Cli.Common
 
-let tomlExists path: Result<string, Exception> =
-    if File.Exists(path)
-    then Ok(path)
-    else Error(FileNotFoundException("Terraform.toml was not found!") :> _)
 
 let getContent path: Result<string, Exception> =
     try
@@ -25,6 +22,6 @@ let parseToml (contents: string): Result<DocumentSyntax, Exception> =
 
 let validateConfiguration config: Result<DocumentSyntax, Exception> =
     config
-    |> Result.bind tomlExists
+    |> Result.bind fileExists
     |> Result.bind getContent
     |> Result.bind parseToml
