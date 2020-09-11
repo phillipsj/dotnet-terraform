@@ -1,23 +1,26 @@
 module DotnetTerraform.Cli.Installer
 
 open System
+open System.IO
 open System.IO.Compression
 open System.Net
+open DotnetTerraform.Cli.Common
+open System.Runtime.InteropServices
 
-type OsInfo =
-    { name: string
+type TfInfo =
+    { platform: string
       arch: string
       version: string }
 
-let buildUrl osInfo: Result<string, Exception> =
+let buildUrl tfInfo: Result<string, Exception> =
     try
         let url =
             sprintf
                 "https://releases.hashicorp.com/terraform/%s/terraform_%s_%s_%s.zip"
-                osInfo.version
-                osInfo.version
-                osInfo.name
-                osInfo.arch
+                tfInfo.version
+                tfInfo.version
+                tfInfo.platform
+                tfInfo.arch
 
         Ok(url)
     with ex -> Error(ex)
@@ -30,15 +33,29 @@ let downloadFile (url: string): Result<string, Exception> =
         Ok(destination)
     with ex -> Error(ex)
 
-let extractFile zipPath: Result<string, Exception> =
+let tfDirectory =
+    Path.Combine(Environment.CurrentDirectory, ".tf")
+
+let determineExecutable: string =
+    if (RuntimeInformation.IsOSPlatform OSPlatform.Windows)
+    then "terraform.exe"
+    else "terraform"
+
+let executable: string =
+    Path.Combine(tfDirectory, determineExecutable)
+
+let extractFile (zipPath: string): Result<string, Exception> =
     try
-        ZipFile.ExtractToDirectory(zipPath, Environment.CurrentDirectory)
-        let exePath = "terraform.exe" // Need to extract determine the full exe path
-        Ok(exePath)
+        if not (Directory.Exists(tfDirectory))
+        then Directory.CreateDirectory(tfDirectory) |> ignore
+        ZipFile.ExtractToDirectory(zipPath, tfDirectory)
+        Ok(executable)
     with ex -> Error(ex)
 
-let installTerraform osInfo: Result<string, Exception> =
-    osInfo
+let getOsInfo: Result<OsInfo, Exception> = () |> getPlatform |> getArchitecture
+
+let installTerraform tfInfo: Result<string, Exception> =
+    tfInfo
     |> Result.bind buildUrl
     |> Result.bind downloadFile
     |> Result.bind extractFile

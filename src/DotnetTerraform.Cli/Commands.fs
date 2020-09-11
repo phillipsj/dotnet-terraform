@@ -4,11 +4,10 @@ open Argu
 
 type CmdArgs =
     | [<CliPrefix(CliPrefix.None)>] Install
-    | [<CliPrefix(CliPrefix.None)>] Init of tfargs:string list
-    | [<CliPrefix(CliPrefix.None)>] Apply of tfargs:string list
-    | [<CliPrefix(CliPrefix.None)>] Plan of tfargs:string list
-    | [<CliPrefix(CliPrefix.None)>] Fmt of tfargs:string list
-with
+    | [<CliPrefix(CliPrefix.None)>] Init of tfargs: string list
+    | [<CliPrefix(CliPrefix.None)>] Apply of tfargs: string list
+    | [<CliPrefix(CliPrefix.None)>] Plan of tfargs: string list
+    | [<CliPrefix(CliPrefix.None)>] Fmt of tfargs: string list
     interface IArgParserTemplate with
         member this.Usage =
             match this with

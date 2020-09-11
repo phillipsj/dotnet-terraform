@@ -29,8 +29,8 @@
   <ItemGroup>
     <Compile Include="Common.fs" />
     <Compile Include="ConfigParser.fs" />
-    <Compile Include="TfCommands.fs" />
     <Compile Include="Installer.fs" />
+    <Compile Include="TfCommands.fs" />
     <Compile Include="Commands.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
