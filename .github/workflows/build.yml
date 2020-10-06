@@ -1,0 +1,32 @@
+name: Build
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - name: Get the sources
+        uses: actions/checkout@v2
+
+      - name: Fetch all history for all tags and branches
+        run: git fetch --prune --unshallow
+
+      - name: Install .NET Core SDK 3.1.402
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.402'
+
+      - name: Run Fake
+        uses: awseward/gh-action-fake5@master

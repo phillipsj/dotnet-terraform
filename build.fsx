@@ -33,8 +33,8 @@ Target.create "Push" (fun _ ->
     !! "src/**/nupkg/*.nupkg"
     |> Seq.iter (fun nupkg -> DotNet.nugetPush setParams nupkg))
 
-Target.create "All" ignore
+Target.create "Default" ignore
 
-"Clean" ==> "Build" ==> "All"
+"Clean" ==> "Build" ==> "Default"
 
-Target.runOrDefault "All"
+Target.runOrDefault "Default"
