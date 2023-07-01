@@ -11,11 +11,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ubuntu-latest
     steps:
       - name: Get the sources
         uses: actions/checkout@v2
@@ -23,13 +19,13 @@ jobs:
       - name: Fetch all history for all tags and branches
         run: git fetch --prune --unshallow
 
-      - name: Install .NET Core SDK 3.1.402
-        uses: actions/setup-dotnet@v1
+      - name: Install .NET
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '3.1.402'
+          dotnet-version: '6.x'
     
       - name: Install Dotnet Tools
         run: dotnet tool restore
         
-      - name: Run Fake
-        run: dotnet fake build
+      - name: Run Build
+        run: dotnet ib build

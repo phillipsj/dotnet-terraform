@@ -2,10 +2,10 @@
   "version": 1,
   "isRoot": true,
   "tools": {
-    "fake-cli": {
-      "version": "5.20.3",
+    "ib": {
+      "version": "5.10.4",
       "commands": [
-        "fake"
+        "ib"
       ]
     }
   }
