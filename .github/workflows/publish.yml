@@ -1,0 +1,33 @@
+name: Publish
+on:
+  push:
+    tags:
+      - '*'
+jobs:
+  build:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the sources
+        uses: actions/checkout@v2
+
+      - name: Fetch all history for all tags and branches
+        run: git fetch --prune --unshallow
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.x'
+
+      - name: Install Dotnet Tools
+        run: dotnet tool restore
+
+      - name: Publish
+        run: dotnet ib publish -Version ${{github.ref_name#v}} -NuGetApiKey ${{secrets.NUGET_API_KEY}}
+        
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          files: |
+            ./artifacts/*.nupkg
