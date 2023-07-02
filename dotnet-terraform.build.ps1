@@ -6,7 +6,8 @@
 param(
 	[ValidateSet('Debug', 'Release')]
 	[string]$Configuration = 'Release',
-	[string]$Version = "1.5.2"
+	[string]$Version = "1.5.2",
+	[string]$NuGetApiKey = (property NuGetApiKey "")
 )
 
 $artifactsPath = "./artifacts"
@@ -62,8 +63,16 @@ task build stage, {
     dotnet build -c $Configuration /p:Version=$Version
 }
 
-task pack {
+# Synopsis: Create NuGet package.
+task pack build, {
     dotnet pack /p:PackageVersion=$Version --output $artifactsPath --no-build -c $Configuration
 }
+
+# Synopsis: Publish NuGet package.
+task publish pack, {
+    $packageName = "dotnet-terraform.$($Version).nupkg"
+    dotnet nuget push $packageName --api-key $NuGetApiKey --source https://api.nuget.org/v3/index.json
+}
+
 # Synopsis: Default task.
 task . build
