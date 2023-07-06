@@ -18,7 +18,7 @@ try {
         os = "linux";
     }
     if (OperatingSystem.IsMacOS()) {
-        os = "darwin";
+        os = "osx";
     }
 
     var architecture = RuntimeInformation.OSArchitecture.ToString().ToLower();
