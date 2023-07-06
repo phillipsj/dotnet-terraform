@@ -15,6 +15,7 @@
     <Description>This package contains the Terraform binaries as provided on the Terraform projects GitHub page for use as a .NET tool. The version of this package matches the Terraform version.</Description>
     <PackageProjectUrl>https://github.com/phillipsj/dotnet-terraform</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>  
     <RepositoryUrl>https://github.com/phillipsj/dotnet-terraform.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Copyright>Jamie Phillips</Copyright>
@@ -26,6 +27,10 @@
   </PropertyGroup>
 
 <ItemGroup>
+    <Content Include="..\..\README.md">
+        <Pack>true</Pack>
+        <PackagePath>\</PackagePath>
+    </Content>
     <Content Include="..\..\artifacts\windows_amd64\*">
       <Pack>true</Pack>
       <PackagePath>tools\net6.0\any\runtimes\win10-x64\native</PackagePath>
